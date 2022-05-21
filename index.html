@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scate=1.0">
+    <title>Document</title>
+    <style>
+        #sold{
+            background-color: green;
+            color: white;
+            padding: 10px;
+            width: 70px;
+        }
+        #remove{
+            color: red;
+            position: relative;
+            left: 50px;
+            padding: 10px;
+        }
+        
+    
+    
+        #counter{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-template-rows: auto;
+            gap: 20px;
+            
+          
+        }
+        #counter>div{
+           
+             margin: auto;
+             width: 250px;
+
+        }
+        div>img{
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h3><a href="addpro.html">Go To Add Products</a></h3>
+    <div id="counter">
+    
+    </div>
+   
+</body>
+</html>
+
+<script>
+    var pro = JSON.parse(localStorage.getItem("Product"))
+
+    /* // var img=document.createElement("img")
+    // img.src=(pro[1].image)
+    // document.querySelector("#container").append(img) */
+
+
+
+    pro.map(function(el,index){
+        var box = document.createElement("div")
+        box.setAttribute("class","product")
+        var name=document.createElement("h2")
+        name.innerText=el.names
+        var category=document.createElement("h3")
+        category.innerText=el.category
+        var img=document.createElement("img")
+        img.src=(el.image)
+        var price=document.createElement("p")
+        price.innerText=el.price
+        var gender=document.createElement("p")
+        gender.innerText=el.gender
+        var sold = document.createElement("button")
+        sold.innerText="Sell"
+        sold.value=el.sold
+        sold.setAttribute("id","sold")
+        sold.addEventListener("click",salled)
+        var remove=document.createElement("button")
+        remove.innerText="Remove"
+        remove.setAttribute("id","remove")
+        remove.addEventListener("click",function(){
+            removeItem(el,index)
+        })
+        box.append(img,name,category,price,gender,sold,remove)
+        document.querySelector("#counter").append(box)
+    })
+
+    function salled(){
+        if(this.value=="false"){
+            this.value="true"
+              this.innerText="Sold"
+        this.style.backgroundColor="red"
+        }
+        else if(this.value=="true"){
+            this.value="false"
+            this.innerText="Sell"
+            this.style.backgroundColor="green"
+        }
+      
+    }
+
+    function removeItem(el,index){
+        console.log("click")
+     pro.splice(index,1)
+    // console.log(cartData)
+    localStorage.setItem("Product",JSON.stringify(pro))
+    window.location.reload();
+    
+    }
+</script>
